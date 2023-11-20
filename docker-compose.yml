@@ -1,0 +1,20 @@
+# Select the version of docker-compose. Version 2 is better than 3 as 3 is better suited for servers
+version: "2"
+
+services:
+  # Our service is to be Jenkins
+  jenkins:
+    # We include our Docker Hub information which is the Jenkins latest
+    image: jenkins/jenkins:lts-jdk17
+    # We map our port which is 8080. We don't need to open port 50000 as we are not working on a farm system
+    ports:
+      - "8080:8080"
+    # We create our volume for persistant data. Jenkins stores information in /var/jenkins_home
+    volumes:
+      - jenkins_home:/var/jenkins_home
+  # We can provide SSH creds to builds
+  ssh-agent:
+    image: jenkins/ssh-agent
+# Finally we make our volume to jenkins_home
+volumes:
+  jenkins_home:
